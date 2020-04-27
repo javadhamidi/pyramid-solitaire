@@ -1,0 +1,17 @@
+
+          5S
+        5S  5S
+      5S  5S  5S
+    5S  5S  5S  5S
+  5S  5S  5S  5S  5S
+5S  5S  5S  5S  5S  5S
+1   2   3   4   5   6 
+
+
+POINTS:
+
+DRAWN CARD: 
+
+
+CARDS IN DRAW PILE: 0
+CARDS IN DISCARD PILE: 0

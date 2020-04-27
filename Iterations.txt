@@ -1,0 +1,15 @@
+
+1. Generate deck of 52 cards as strings in an array called 'deck' (without 
+   manaually typing all 52 elements in the array).
+
+2. Create function to 'shuffle' a given array (based on the Fisher–Yates 
+   shuffle https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#Modern_method).
+
+3. Generate a text-based card pyramid, using the shuffled deck, that is 
+   printed to the command window.
+
+4. Create a function to draw cards from the shuffled deck (created in the 
+   previous steps). Then print the drawn card to the command window.
+
+5. Accept user input for various game operations (draw card, move card, 
+   quit, etc.).
