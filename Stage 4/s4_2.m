@@ -73,11 +73,23 @@ for row=1:boardSize+1
     
     for col=1:boardSize
         currentCell = pyramid(row, col); % current cell to manipulate and print
+        
+        % numbers exposed parts of the foundation, marked by asterisks
         if currentCell == "*"
-            pyramidRow = pyramidRow + "  " + foundationMarker + " ";
+            pyramidRow = pyramidRow + " " + foundationMarker + "  ";
             foundationMarker = foundationMarker + 1;
-        elseif currentCell == ""
+            
+        % checks for empty cells (within the pyramid structure) and adds extra spacing
+        elseif currentCell == "" && col < row
             pyramidRow = pyramidRow + "    ";
+            
+        % all card values (A, 2, 3, Q, K) are one character long, except
+        % for 10, which offsets the spacing of each row. Two avoid this,
+        % only one trailing space is added, instead of two like all other values 
+        elseif startsWith(currentCell, "10")
+            pyramidRow = pyramidRow + pyramid(row, col) + " "; % only one space added
+        
+        % adds double spacing for all card values (7C, 2D, etc.), other than 10   
         else
             pyramidRow = pyramidRow + pyramid(row, col) + "  "; % each element of each row is separated by two spaces for tidyness
         end
@@ -87,5 +99,5 @@ for row=1:boardSize+1
 end
 
 
-% clc % command window is cleared on each pass so that changed boards don't visually stack on each other
+clc % command window is cleared on each pass so that changed boards don't visually stack on each other
 fprintf(board);

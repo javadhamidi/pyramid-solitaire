@@ -1,0 +1,4 @@
+
+Added the ability to draw cards from the stock, and reset the stock once 
+it is empty by moving all cards back in their original order.
+

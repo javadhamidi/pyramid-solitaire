@@ -9,7 +9,13 @@
    printed to the command window.
 
 4. Create a function to draw cards from the shuffled deck (created in the 
-   previous steps). Then print the drawn card to the command window.
+   previous steps). Then print the drawn card to the command window, with 
+   points on the foundation marked.
 
-5. Accept user input for various game operations (draw card, move card, 
-   quit, etc.).
+5. Create skeleton code for what accepting user input for various game 
+   operations (draw card, move card, quit, etc.) would look like.
+
+6. Combine input gathering code with pyramid output code from steps 1-4.
+
+7. Create function to move cards from the stock to the draw pile, and allow  
+   user input to perform this operation.

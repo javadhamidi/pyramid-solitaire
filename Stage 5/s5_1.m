@@ -1,15 +1,22 @@
 
-lastCommand = "start";
+% Skeleton code for what processing user input would look like. Not all
+% command functionality has been implemented yet.
+
+lastCommand = "start"; % initialises indicator to run starting sequence
 
 while lastCommand ~= "quit"
     clc
     
+    % given user commads my include parameters, separated by spaces. 
+    % If spaces are included, the parameters are removed, before assigning
+    % the command prefix (draw, move, etc.) to a variable
     if contains(lastCommand, " ")
         commandPrefix = extractBefore(lastCommand, " ");
     else
         commandPrefix = lastCommand;
     end
     
+    % executes functionality based on command given
     switch commandPrefix
         case "draw"
             fprintf("The stock is empty, try command 'reset' to first reset it.\n");
@@ -28,4 +35,4 @@ while lastCommand ~= "quit"
     lastCommand = input("> ", 's');
 end
 
-fprintf("Thanks for playing!\n\n");
+fprintf("Thanks for playing!\n\n"); % message printed when user quits the game
