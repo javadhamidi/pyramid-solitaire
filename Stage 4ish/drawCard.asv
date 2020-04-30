@@ -1,8 +1,0 @@
-
-function [ newStock, outputArg2 ] = drawCard(stock, drawnPile)
-    % DRAWCARD Summary of this function goes here
-    % 
-    
-    outputArg1 = stock;
-    outputArg2 = drawnPile;
-end
