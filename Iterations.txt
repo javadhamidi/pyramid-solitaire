@@ -20,5 +20,11 @@
 7. Create function to move cards from the stock to the draw pile, and allow  
    user input to perform this operation.
 
-8. Add ability to move drawn cards onto the foundation, making card pairs 
-   that add up to 13. These are automatically sent to the discard pile.
+Stage 8 and 9 will focus on implementing the ability to move cards from the 
+draw pile onto the foundation, making card pairs that add up to 13. These 
+are automatically sent to the discard pile.
+
+8. Sanatising user input, and ensuring valid parameters are given in the 
+   move command.
+
+9. Complete functionality started in part 8, 

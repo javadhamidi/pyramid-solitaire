@@ -24,7 +24,7 @@ board = ""; % stores the visualised game board printed on screen
 lastCommand = "restart force"; % initialises with indicator reset board without user confirmation
 message = "Welcome to pyramid! The rules are simple ..."; % first time user message
 
-while lastCommand ~= "quit"           
+while lastCommand ~= "quit"      
     % given user commads my include parameters, separated by spaces. 
     % If spaces are included, the parameters are removed, before assigning
     % the command prefix (draw, move, etc.) to a variable
@@ -79,7 +79,9 @@ while lastCommand ~= "quit"
             end
         case "draw"
             if ~isempty(stock)
-                [stock, drawn] = drawCard(stock, drawn); % uses drawCard to manipulate vectors
+                % moves card from stock to drawn cards pile
+                drawn = [ stock(end) drawn ]; % adds last card of stock to drawn cards pile
+                stock = stock(1:end-1); % removes that last card from stock
             else
                 message = "The stock is empty, try command 'reset' to first reset it.";
             end
@@ -95,7 +97,24 @@ while lastCommand ~= "quit"
                                 isnumeric(str2num(moveDestination)) && ... % checks if moveDestination is a number (as all foundational values are numbers)
                                 contains(board, moveDestination + " "); % checks if board contains moveDestination (given all foundational values are followed by a trailing space)
                 if isValidMove
+                    % stores the two indicated cards in their original form (AC, 4S, KH, etc.) 
+                    moveSourceCard = drawn(1); % first card in drawn pile
+                    moveDestinationCard = cardAtPosition(pyramid, moveDestination);
                     
+                    % finds point value of both cards combined
+                    pairPointValue = cardPointValue(moveSourceCard) + cardPointValue(moveDestinationCard);
+                    
+                    if pairPointValue == 13
+                        % move source card to discard pile
+                        discard = [ discard drawn(1) ];
+                        drawn = drawn(2:end);
+                        
+                        % move destination card to discard pile
+                        discard = [moveDestinationCard discard]; 
+                        pyramid(pyramid == moveDestinationCard) = ""; % makes element blank where pyramid == moveDestinationCard 
+                    else
+                        message = "Sorry, the combined values of the cards must be equal to 13 to create a pair, try again.";
+                    end
                 else
                     message = "Invalid move, please ensure a card has been drawn and the given foundational value exists on the board.";
                 end
@@ -115,8 +134,10 @@ while lastCommand ~= "quit"
     
     clc; % clears screen
     
-    % generates printable board with initial values
-    board = generateBoard(pyramid, boardSize, stock, drawn, discard);
+    pyramid(pyramid == "*") = ""; % resets foundation indicators on the board
+    
+    % generates printable board with initial values and updates pyramid
+    [ pyramid, board ] = generateBoard(pyramid, boardSize, stock, drawn, discard);
     fprintf(title + board + "\n"); % prints current board
     
     fprintf(message + "\n");

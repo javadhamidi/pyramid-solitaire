@@ -1,6 +1,4 @@
 
-% NOTE: Added marker for foundational spots on the pyramid
-
 % CREATE DECK
 
 cards = ["A" 2:10 "J" "Q" "K"]; % card values representing ace through king
