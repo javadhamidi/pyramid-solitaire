@@ -1,0 +1,78 @@
+
+The purpose of s3 is to deal the first few elements into a pyramid-like 
+vector that can be easily manipulated, and then to print that vector in 
+a pyramid shape to the command window (as a single string with newline 
+characters).
+
+Note: Variables in the script were reassigned for these test cases. These 
+variables may be constants in the final product, but are modified to test 
+for robustness and as a proof of concept.
+
+
+---- TEST 1 ----
+deck = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15" ];
+boardSize = 4; (for three rows and three columns)
+
+EXPECTED OUTPUT:
+
+pyramid = [ "1" "" "" ""; 
+            "2" "3" "" "";
+            "4" "5" "6" ""; 
+            "7" "8" "9" "10" ];
+
+command window output:    1
+                        2  3
+                      4  5  6
+                    7  8  9  10
+
+GIVEN OUTPUT:
+
+pyramid = [ "1"    ""     ""     ""  
+            "2"    "3"    ""     ""  
+            "4"    "5"    "6"    ""  
+            "7"    "8"    "9"    "10" ]
+
+command window output:        1
+                            2  3
+                          4  5  6
+                        7  8  9  10
+
+---- TEST 2 ----
+deck = [ "AC", "AH", "AS", "AD", "2C", "2H", "2S", "2D", ... (full ordered deck)
+boardSize = 7;
+
+EXPECTED OUTPUT:
+
+pyramid = [ "AC" "" "" "" "" "" "";
+            "AH" "AS" "" "" "" "" "";
+            "AD" "2C" "2H" "" "" "" "";
+            "2S" "2D" "3C" "3H" "" "" "";
+            "3S" "3D" "4C" "4H" "4S" "" "";
+            "4D" "5C" "5H" "5S" "5D" "6C" "";
+            "6H" "6S" "6D" "7C" "7H" "7S" "7D" ];
+
+command window output:       AC            
+                           AH  AS          
+                         AD  2C  2H        
+                       2S  2D  3C  3H      
+                     3S  3D  4C  4H  4S    
+                   4D  5C  5H  5S  5D  6C  
+                 6H  6S  6D  7C  7H  7S  7D
+
+GIVEN OUTPUT:
+
+pyramid =   "AC"    ""      ""      ""      ""      ""      ""  
+            "AH"    "AS"    ""      ""      ""      ""      ""  
+            "AD"    "2C"    "2H"    ""      ""      ""      ""  
+            "2S"    "2D"    "3C"    "3H"    ""      ""      ""  
+            "3S"    "3D"    "4C"    "4H"    "4S"    ""      ""  
+            "4D"    "5C"    "5H"    "5S"    "5D"    "6C"    ""  
+            "6H"    "6S"    "6D"    "7C"    "7H"    "7S"    "7D"
+
+command window output:       AC            
+                           AH  AS          
+                         AD  2C  2H        
+                       2S  2D  3C  3H      
+                     3S  3D  4C  4H  4S    
+                   4D  5C  5H  5S  5D  6C  
+                 6H  6S  6D  7C  7H  7S  7D

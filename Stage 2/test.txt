@@ -1,0 +1,28 @@
+
+The shuffle function randomly shifts the order of a given vector. Given 
+that the result should be random, not one expected output can be predicted.
+Below are some tests (with smaller vectors than the one containing all 52 
+cards) where all permutations are listed, and the shuffle function was 
+tested. 
+
+Note that it is possible for the deck to be shuffled, and for the order of 
+the deck to not change. In the very unlikely event that this occurs with a 
+vector of 52 elements, I have determined this not to be severely 
+detrimental to game play.
+
+Input               Possible Outputs        Given Output (is random)
+[]                  []                      []
+
+[1 2 3]             [1 2 3]                 [2 1 3]
+                    [1 3 2]
+                    [2 1 3]
+                    [2 3 1]
+                    [3 1 2]
+                    [3 2 1]
+
+["JC" "QH" "KS"]    ["JC" "QH" "KS"]        ["JC" "QH" "KS"]
+                    ["JC" "KS" "QH"]
+                    ["QH" "JC" "KS"]
+                    ["QH" "KS" "JC"]
+                    ["KS" "JC" "QH"]
+                    ["KS" "QH" "JC"]

@@ -1,6 +1,4 @@
 
-% Note: reduced repeated code related to 'move' input
-
 cards = ["A" 2:10 "J" "Q" "K"]; % card values representing ace through king
 suits = ["C" "H" "S" "D"]; % suits refered to by first letter (clubs, hearts, spades and diamonds)
 
@@ -89,7 +87,8 @@ while lastCommand ~= "quit"
             end
         case "move"
             commandSections = split(lastCommand); % splits the move command into each of its elements
-            if length(commandSections) == 3 % must have three parts, source, destination, and the phrase 'move'
+            % must have three non-empty parts, source, destination, and the phrase 'move'
+            if length(commandSections) == 3 && commandSections(2, 1) ~= "" && commandSections(3, 1) ~= "" 
                 moveSource = string(commandSections(2)); % second element of the move command indicates the source
                 moveDestination = string(commandSections(3)); % third element indicates the destination
                 
@@ -109,22 +108,15 @@ while lastCommand ~= "quit"
                 isDrawnKing2Discard = moveDestination == "discard" && ...
                                 ~isempty(drawn) && ...
                                 moveSource == "drawn";
-                
-                % sets source
-                if isDrawn2Foundation || isDrawnKing2Discard
-                    moveSourceCard = drawn(1);
-                elseif isFoundation2Foundation || isFoundationKing2Discard
-                    moveSourceCard = cardAtPosition(pyramid, moveSource);
-                end
-                
-                % sets destination
-                if isDrawn2Foundation || isFoundation2Foundation
+                            
+                if isDrawn2Foundation
+                    % stores the two indicated cards in their original form (AC, 4S, KH, etc.) 
+                    moveSourceCard = drawn(1); % first card in drawn pile
                     moveDestinationCard = cardAtPosition(pyramid, moveDestination);
                     
+                    % finds point value of both cards combined
                     pairPointValue = cardPointValue(moveSourceCard) + cardPointValue(moveDestinationCard);
-                end
-                
-                if isDrawn2Foundation                    
+                    
                     if pairPointValue == 13
                         % move source card to discard pile
                         discard = [ discard drawn(1) ];
@@ -138,7 +130,13 @@ while lastCommand ~= "quit"
                     end
                     
                 elseif isFoundation2Foundation
-
+                    % stores the two indicated cards in their original form (AC, 4S, KH, etc.) 
+                    moveSourceCard = cardAtPosition(pyramid, moveSource);
+                    moveDestinationCard = cardAtPosition(pyramid, moveDestination);
+                    
+                    % finds point value of both cards combined
+                    pairPointValue = cardPointValue(moveSourceCard) + cardPointValue(moveDestinationCard);
+                    
                     if pairPointValue == 13
                         % move source card to discard pile
                         discard = [moveSourceCard discard]; 
@@ -152,7 +150,9 @@ while lastCommand ~= "quit"
                     end
                     
                 elseif isFoundationKing2Discard
-
+                    % converts the card to its original form (AC, 4S, KH, etc.) 
+                    moveSourceCard = cardAtPosition(pyramid, moveSource);
+                    
                     if startsWith(moveSourceCard, "K") % confirms that a king is being provided
                         % moves king to discard pile
                         discard = [moveSourceCard discard]; 
@@ -162,7 +162,9 @@ while lastCommand ~= "quit"
                     end
                     
                 elseif isDrawnKing2Discard
-
+                    % converts the card to its original form (AC, 4S, KH, etc.)  
+                    moveSourceCard = drawn(1);
+                    
                     if startsWith(moveSourceCard, "K") % confirms that a king is being provided
                         % moves king to discard pile (from drawn cards pile)
                         discard = [ discard drawn(1) ];

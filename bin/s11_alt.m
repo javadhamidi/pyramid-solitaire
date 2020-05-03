@@ -1,4 +1,7 @@
 
+% Note: this script uses less repeated code in the 'move' command section, 
+%       but is less readable
+
 cards = ["A" 2:10 "J" "Q" "K"]; % card values representing ace through king
 suits = ["C" "H" "S" "D"]; % suits refered to by first letter (clubs, hearts, spades and diamonds)
 
@@ -100,15 +103,30 @@ while lastCommand ~= "quit"
                 % second allowed move: one card on the foundation can be moved onto another if the total value is 13
                 isFoundation2Foundation = isFoundationNumber(moveSource, board) && ... 
                                 isFoundationNumber(moveDestination, board); % checks that both are valid foundational values
+                
+                % third allowed move: kings can be moved directly to the discard pile if in the draw pile or on the foundation
+                isFoundationKing2Discard = moveDestination == "discard" && ...
+                                isFoundationNumber(moveSource, board);
                             
-                if isDrawn2Foundation
-                    % stores the two indicated cards in their original form (AC, 4S, KH, etc.) 
-                    moveSourceCard = drawn(1); % first card in drawn pile
+                isDrawnKing2Discard = moveDestination == "discard" && ...
+                                ~isempty(drawn) && ...
+                                moveSource == "drawn";
+                
+                % sets source
+                if isDrawn2Foundation || isDrawnKing2Discard
+                    moveSourceCard = drawn(1);
+                elseif isFoundation2Foundation || isFoundationKing2Discard
+                    moveSourceCard = cardAtPosition(pyramid, moveSource);
+                end
+                
+                % sets destination
+                if isDrawn2Foundation || isFoundation2Foundation
                     moveDestinationCard = cardAtPosition(pyramid, moveDestination);
                     
-                    % finds point value of both cards combined
                     pairPointValue = cardPointValue(moveSourceCard) + cardPointValue(moveDestinationCard);
-                    
+                end
+                
+                if isDrawn2Foundation                    
                     if pairPointValue == 13
                         % move source card to discard pile
                         discard = [ discard drawn(1) ];
@@ -122,13 +140,7 @@ while lastCommand ~= "quit"
                     end
                     
                 elseif isFoundation2Foundation
-                    % stores the two indicated cards in their original form (AC, 4S, KH, etc.) 
-                    moveSourceCard = cardAtPosition(pyramid, moveSource);
-                    moveDestinationCard = cardAtPosition(pyramid, moveDestination);
-                    
-                    % finds point value of both cards combined
-                    pairPointValue = cardPointValue(moveSourceCard) + cardPointValue(moveDestinationCard);
-                    
+
                     if pairPointValue == 13
                         % move source card to discard pile
                         discard = [moveSourceCard discard]; 
@@ -140,6 +152,26 @@ while lastCommand ~= "quit"
                     else
                         message = "Sorry, the combined values of the cards must be equal to 13 to create a pair, try again.";
                     end
+                    
+                elseif isFoundationKing2Discard
+
+                    if startsWith(moveSourceCard, "K") % confirms that a king is being provided
+                        % moves king to discard pile
+                        discard = [moveSourceCard discard]; 
+                        pyramid(pyramid == moveSourceCard) = ""; 
+                    else
+                        message = "Invalid move, only kings can be moved directly to the discard pile.";
+                    end
+                    
+                elseif isDrawnKing2Discard
+
+                    if startsWith(moveSourceCard, "K") % confirms that a king is being provided
+                        % moves king to discard pile (from drawn cards pile)
+                        discard = [ discard drawn(1) ];
+                        drawn = drawn(2:end);
+                    else
+                        message = "Invalid move, only kings can be moved directly to the discard pile.";
+                    end 
                     
                 else
                     message = "Invalid move, please ensure the source and destination exist and that a legal move is being made.";

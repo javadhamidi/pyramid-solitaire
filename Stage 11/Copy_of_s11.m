@@ -87,7 +87,8 @@ while lastCommand ~= "quit"
             end
         case "move"
             commandSections = split(lastCommand); % splits the move command into each of its elements
-            if length(commandSections) == 3 % must have three parts, source, destination, and the phrase 'move'
+            % must have three non-empty parts, source, destination, and the phrase 'move'
+            if length(commandSections) == 3 && commandSections(2, 1) ~= "" && commandSections(3, 1) ~= "" 
                 moveSource = string(commandSections(2)); % second element of the move command indicates the source
                 moveDestination = string(commandSections(3)); % third element indicates the destination
                 

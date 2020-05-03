@@ -37,7 +37,7 @@ function [ pyramid, board ] = generateBoard(pyramid, boardSize, stock, drawnCard
 
             % numbers exposed parts of the foundation, marked by asterisks
             if currentCell == "*"
-                pyramidRow = pyramidRow + " " + foundationMarker + "  ";
+                pyramidRow = pyramidRow + "  " + foundationMarker + " ";
                 foundationMarker = foundationMarker + 1;
 
             % checks for empty cells (within the pyramid structure) and adds extra spacing
