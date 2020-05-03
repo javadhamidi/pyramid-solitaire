@@ -21,7 +21,7 @@ while lastCommand ~= "quit"
         case "draw"
             fprintf("The stock is empty, try command 'reset' to first reset it.\n");
         case "move"
-            break
+            fprintf("Card X was moved to position Y.\n");
         case "reset"
             fprintf("The stock needs to be empty before it can be reset, try command 'draw' to get more cards from the stock.\n");
         case "start"

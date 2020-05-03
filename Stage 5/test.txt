@@ -1,0 +1,50 @@
+
+This iteration demonstrates the ability to execute different pieces of
+functionality until the user types quit (using a switch statement). The 
+following tests show those example commands being executed.
+
+TEST 1
+Input:              "" (empty string)
+Expected Output:    The command  is unrecognised, please try again.
+Given Output:       The command  is unrecognised, please try again.
+
+TEST 2
+Input:              -123.456 (a number)
+Expected Output:    The command -123.456 is unrecognised, please try again.
+Given Output:       The command -123.456 is unrecognised, please try again.
+
+TEST 3
+Input:              clc (a built in matlab function)
+Expected Output:    The command clc is unrecognised, please try again.
+Given Output:       The command clc is unrecognised, please try again.
+
+TEST 4
+Input:              draw
+Expected Output:    The stock is empty, try command 'reset' to first reset it.
+Given Output:       The stock is empty, try command 'reset' to first reset it.
+
+TEST 5
+Input:              move
+Expected Output:    Card X was moved to position Y.
+Given Output:       Card X was moved to position Y.
+
+TEST 5
+Input:              move X Y Z A B C
+Expected Output:    Card X was moved to position Y.
+Given Output:       Card X was moved to position Y.
+
+TEST 6
+Input:              reset
+Expected Output:    The stock needs to be empty before it can be reset, try command 'draw' to get more cards from the stock.
+Given Output:       The stock needs to be empty before it can be reset, try command 'draw' to get more cards from the stock.
+
+TEST 7
+Input:              restart
+Expected Output:    Are you sure you want to restart? You may loose all game progress! [type yes or no]
+Given Output:       Are you sure you want to restart? You may loose all game progress! [type yes or no]
+
+TEST 8
+Input:              start
+Expected Output:    Welcome to pyramid! The rules are simple ...
+Given Output:       Welcome to pyramid! The rules are simple ...
+

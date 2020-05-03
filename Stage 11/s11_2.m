@@ -1,4 +1,6 @@
 
+% Trying to simplify of 'move' procedures
+
 cards = ["A" 2:10 "J" "Q" "K"]; % card values representing ace through king
 suits = ["C" "H" "S" "D"]; % suits refered to by first letter (clubs, hearts, spades and diamonds)
 
@@ -23,6 +25,10 @@ board = ""; % stores the visualised game board printed on screen
 
 lastCommand = "restart force"; % initialises with indicator reset board without user confirmation
 message = "Welcome to pyramid! The rules are simple ..."; % first time user message
+
+% these two messages are used repeatedly in the loop, and thus are defined here for later use
+movePairMessage = "Sorry, the combined values of the cards must be equal to 13 to create a pair, try again.";
+moveKingMessage = "Invalid move, only kings can be moved directly to the discard pile.";
 
 while lastCommand ~= "quit"      
     % given user commads my include parameters, separated by spaces. 
@@ -122,11 +128,9 @@ while lastCommand ~= "quit"
                         discard = [ discard drawn(1) ];
                         drawn = drawn(2:end);
                         
-                        % move destination card to discard pile
-                        discard = [moveDestinationCard discard]; 
-                        pyramid(pyramid == moveDestinationCard) = ""; % makes element blank where pyramid == moveDestinationCard 
+                        [ discard, pyramid ] = pyramid2Discard(moveDestinationCard, pyramid, discard); % move destination card to discard pile 
                     else
-                        message = "Sorry, the combined values of the cards must be equal to 13 to create a pair, try again.";
+                        message = movePairMessage;
                     end
                     
                 elseif isFoundation2Foundation
@@ -138,15 +142,11 @@ while lastCommand ~= "quit"
                     pairPointValue = cardPointValue(moveSourceCard) + cardPointValue(moveDestinationCard);
                     
                     if pairPointValue == 13
-                        % move source card to discard pile
-                        discard = [moveSourceCard discard]; 
-                        pyramid(pyramid == moveSourceCard) = ""; 
-                        
-                        % move destination card to discard pile
-                        discard = [moveDestinationCard discard]; 
-                        pyramid(pyramid == moveDestinationCard) = ""; 
+                        % move source and destination cards to discard pile
+                        [ discard, pyramid ] = pyramid2Discard(moveSourceCard, pyramid, discard); 
+                        [ discard, pyramid ] = pyramid2Discard(moveDestinationCard, pyramid, discard);
                     else
-                        message = "Sorry, the combined values of the cards must be equal to 13 to create a pair, try again.";
+                        message = movePairMessage;
                     end
                     
                 elseif isFoundationKing2Discard
@@ -154,11 +154,9 @@ while lastCommand ~= "quit"
                     moveSourceCard = cardAtPosition(pyramid, moveSource);
                     
                     if startsWith(moveSourceCard, "K") % confirms that a king is being provided
-                        % moves king to discard pile
-                        discard = [moveSourceCard discard]; 
-                        pyramid(pyramid == moveSourceCard) = ""; 
+                        [ discard, pyramid ] = pyramid2Discard(moveSourceCard, pyramid, discard); % moves king to discard pile
                     else
-                        message = "Invalid move, only kings can be moved directly to the discard pile.";
+                        message = moveKingMessage;
                     end
                     
                 elseif isDrawnKing2Discard

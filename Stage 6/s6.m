@@ -74,11 +74,11 @@ while lastCommand ~= "quit"
             % generates printable board with initial values
             board = generateBoard(pyramid, boardSize, stock, drawn, discard);
 
-            fprintf("Welcome to pyramid! The rules are simple ...\n");
+            fprintf("Welcome to pyramid! The rules are simple ... press any key to continue.\n");
         case "draw"
             fprintf("The stock is empty, try command 'reset' to first reset it.\n");
         case "move"
-            break
+            fprintf("Card X was moved to position Y.\n");
         case "reset"
             fprintf("The stock needs to be empty before it can be reset, try command 'draw' to get more cards from the stock.\n");
         case "restart"

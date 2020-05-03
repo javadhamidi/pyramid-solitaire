@@ -1,4 +1,7 @@
 
-Added the ability to draw cards from the stock, and reset the stock once 
-it is empty by moving all cards back in their original order.
+In this iteration I added the ability to draw cards from the stock, and 
+reset the stock once it is empty by moving all cards back in their original 
+order. 
+
+1. Test that the draw pile contains all cards not used in the pyramid 
 
