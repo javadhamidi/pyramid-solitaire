@@ -27,4 +27,14 @@ are automatically sent to the discard pile.
 8. Sanatising user input, and ensuring valid parameters are given in the 
    move command.
 
-9. Complete functionality started in part 8, 
+9. Complete functionality started in part 8, manipulating relevent vectors 
+   in moving cards from one pile to the others.
+
+10. Allow the user to move one foundation card onto another if both add up 
+   in value to 13. 
+
+##. Given the large amount of repeated code in iterations 9 and 10, some of 
+    the 'move' command functionality will be moved into a function.
+
+11. Implementing the ability to move a king directly to the discard pile 
+   (as the point value of a king is 13).
