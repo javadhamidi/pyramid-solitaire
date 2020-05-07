@@ -1,0 +1,53 @@
+
+======= Rules of Pyramid Solitaire =======
+
+The goal of the game is to get rid of all the cards in the pyramid. You 
+can do this by moving all of the cards from the pyramid to the discard 
+pile. You can only move cards to the discard pile if you can create a pair 
+of cards that add up to 13 or have a King which already has a value of 13 
+(being the highest card). Each cards’ value is based on deck order, so A=1, 
+2=2... J=11, Q=12 and K=13. You can only remove cards from the base of the
+pyramid, working your way up to the top. You can draw cards from the stock 
+and try to pair them with any cards at the base of the pyramid so that they 
+add up to 13. Alternatively, you can pair two cards from the base of the 
+pyramid instead of pairing with a stock card. 
+
+
+SYNTAX & COMMANDS
+
+Each card is represented by the value of the card, followed by its suite. 
+So, queen of hearts is “QH”. At the base of the pyramid are numbers that 
+represent each column that the cards are in. There are several options to 
+eliminate cards from the pyramid.
+
+Being a text-based game, you can interface with the game board using 
+various commands:
+
+Enter "reset" once the stock is empty
+Enter "restart" to restart entire game if you get stuck
+Enter "draw" to draw a card from the stock
+Enter "move" to move cards from and to the base of the pyramid or the draw pile
+
+
+GAME PLAY OPTIONS
+
+Option 1: Pair two cards from the base of the pyramid. For example to pair 
+          the 3 of hearts in row 5 with the 4 of clubs in row 7, enter the
+          command "move" and then the column number for the card(s) you 
+          want to use, separated by a space, e.g. "move 5 7", followed by 
+          “enter”. 
+
+Option 2: Draw a card from the deck to pair with a card from the pyramid. 
+          Enter, “draw” and your card will appear in the “drawn card” pile, 
+          to the right of the pyramid. That card can now be used. 
+          Otherwise, you may continue to draw from the stock pile until you 
+          find a card you can use. Any unused cards cannot be accessed 
+          again until you reach the end of the stock pile and press “reset” 
+          which will move all the drawn cards back to the stock pile for 
+          use so that the game continues.
+
+Option 3: Pair a drawn card with one from the pyramid. Enter: “move drawn” 
+          plus the column number you’re pairing it with, e.g.  “move drawn 3”.
+
+Option 4: Move a king (value of 13) directly to discard from the column or 
+          drawn pile, enter “3 discard” or “drawn discard”.

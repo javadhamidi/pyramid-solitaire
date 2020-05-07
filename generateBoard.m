@@ -37,7 +37,7 @@ function [ pyramid, board ] = generateBoard(pyramid, boardSize, stock, drawnCard
 
             % numbers exposed parts of the foundation, marked by asterisks
             if currentCell == "*"
-                pyramidRow = pyramidRow + " " + foundationMarker + "  ";
+                pyramidRow = pyramidRow + "  " + foundationMarker + " ";
                 foundationMarker = foundationMarker + 1;
 
             % checks for empty cells (within the pyramid structure) and adds extra spacing
@@ -58,16 +58,16 @@ function [ pyramid, board ] = generateBoard(pyramid, boardSize, stock, drawnCard
         
         switch row
             case 1 % add card stock indicator at the end of the first row
-                pyramidRow = pyramidRow + "CARDS IN STOCK: " + length(stock);
+                pyramidRow = pyramidRow + " CARDS IN STOCK: " + length(stock);
             case 2 % add drawn card indicator at the end of the second row
-                pyramidRow = pyramidRow + "DRAWN CARD: ";
+                pyramidRow = pyramidRow + " DRAWN CARD: ";
                 if ~isempty(drawnCards) % outputs 'None' if vector is empty, otherwise gives first element
                     pyramidRow = pyramidRow + drawnCards(1);
                 else
                     pyramidRow = pyramidRow + "None";
                 end
             case 4 % add discard pile indicator at the end of the fourth row
-                pyramidRow = pyramidRow + "CARDS IN DISCARD: " + length(discard);
+                pyramidRow = pyramidRow + " CARDS IN DISCARD: " + length(discard);
         end
         
         board = board + leftPadding + pyramidRow + "\n"; % assembles each new row with the board

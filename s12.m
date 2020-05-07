@@ -18,11 +18,17 @@ end
 
 title = " ========= PYRAMID =========\n\n";
 
+winScreen = " ========= YOU WIN! =========";
+
 % initialising variables
 board = ""; % stores the visualised game board printed on screen
 
 lastCommand = "restart force"; % initialises with indicator reset board without user confirmation
-message = "Welcome to pyramid! The rules are simple ..."; % first time user message
+message = " Welcome to pyramid! If this is your first time playing you can find the rules \n in 'instructions.txt' or by typing the command 'instructions' below."; % first time user message
+
+% these two messages are used repeatedly in the loop, and thus are defined here for later use
+movePairMessage = "Sorry, the combined values of the cards must be equal to 13 to create a pair, try again.";
+moveKingMessage = "Invalid move, only kings can be moved directly to the discard pile.";
 
 while lastCommand ~= "quit"      
     % given user commads my include parameters, separated by spaces. 
@@ -36,6 +42,13 @@ while lastCommand ~= "quit"
     
     % executes functionality based on command given
     switch commandPrefix
+        case "instructions"
+            fileContent = fileread('instructions.txt');
+            
+            clc;
+            fprintf("%s", fileContent); % prints instructions.txt
+            input("\n* Press enter to return to the game ...\n", 's'); %  user must press enter to continue
+        
         case "restart"
             % will skip user confirmation and automatically continue restarting the game
             if lastCommand == "restart force"
@@ -76,6 +89,8 @@ while lastCommand ~= "quit"
 
                 cardsInPyramid = (boardSize^2 + boardSize)/2; % calculates number of cards in the pyramid
                 stock = deck(cardsInPyramid+1:end); % puts remaining cards in stock
+                
+                tic; % starts stopwatch
             end
         case "draw"
             if ~isempty(stock)
@@ -100,6 +115,14 @@ while lastCommand ~= "quit"
                 % second allowed move: one card on the foundation can be moved onto another if the total value is 13
                 isFoundation2Foundation = isFoundationNumber(moveSource, board) && ... 
                                 isFoundationNumber(moveDestination, board); % checks that both are valid foundational values
+                
+                % third allowed move: kings can be moved directly to the discard pile if in the draw pile or on the foundation
+                isFoundationKing2Discard = moveDestination == "discard" && ...
+                                isFoundationNumber(moveSource, board);
+                            
+                isDrawnKing2Discard = moveDestination == "discard" && ...
+                                ~isempty(drawn) && ...
+                                moveSource == "drawn";
                             
                 if isDrawn2Foundation
                     % stores the two indicated cards in their original form (AC, 4S, KH, etc.) 
@@ -114,11 +137,9 @@ while lastCommand ~= "quit"
                         discard = [ discard drawn(1) ];
                         drawn = drawn(2:end);
                         
-                        % move destination card to discard pile
-                        discard = [moveDestinationCard discard]; 
-                        pyramid(pyramid == moveDestinationCard) = ""; % makes element blank where pyramid == moveDestinationCard 
+                        [ discard, pyramid ] = pyramid2Discard(moveDestinationCard, pyramid, discard); % move destination card to discard pile 
                     else
-                        message = "Sorry, the combined values of the cards must be equal to 13 to create a pair, try again.";
+                        message = movePairMessage;
                     end
                     
                 elseif isFoundation2Foundation
@@ -130,16 +151,34 @@ while lastCommand ~= "quit"
                     pairPointValue = cardPointValue(moveSourceCard) + cardPointValue(moveDestinationCard);
                     
                     if pairPointValue == 13
-                        % move source card to discard pile
-                        discard = [moveSourceCard discard]; 
-                        pyramid(pyramid == moveSourceCard) = ""; 
-                        
-                        % move destination card to discard pile
-                        discard = [moveDestinationCard discard]; 
-                        pyramid(pyramid == moveDestinationCard) = ""; 
+                        % move source and destination cards to discard pile
+                        [ discard, pyramid ] = pyramid2Discard(moveSourceCard, pyramid, discard); 
+                        [ discard, pyramid ] = pyramid2Discard(moveDestinationCard, pyramid, discard);
                     else
-                        message = "Sorry, the combined values of the cards must be equal to 13 to create a pair, try again.";
+                        message = movePairMessage;
                     end
+                    
+                elseif isFoundationKing2Discard
+                    % converts the card to its original form (AC, 4S, KH, etc.) 
+                    moveSourceCard = cardAtPosition(pyramid, moveSource);
+                    
+                    if startsWith(moveSourceCard, "K") % confirms that a king is being provided
+                        [ discard, pyramid ] = pyramid2Discard(moveSourceCard, pyramid, discard); % moves king to discard pile
+                    else
+                        message = moveKingMessage;
+                    end
+                    
+                elseif isDrawnKing2Discard
+                    % converts the card to its original form (AC, 4S, KH, etc.)  
+                    moveSourceCard = drawn(1);
+                    
+                    if startsWith(moveSourceCard, "K") % confirms that a king is being provided
+                        % moves king to discard pile (from drawn cards pile)
+                        discard = [ discard drawn(1) ];
+                        drawn = drawn(2:end);
+                    else
+                        message = "Invalid move, only kings can be moved directly to the discard pile.";
+                    end 
                     
                 else
                     message = "Invalid move, please ensure the source and destination exist and that a legal move is being made.";
@@ -162,6 +201,18 @@ while lastCommand ~= "quit"
     clc; % clears screen
     
     pyramid(pyramid == "*") = ""; % resets foundation indicators on the board
+    
+    % checks if user has completed the pyramid
+    if isempty(find(~ismember(pyramid, ""), 1)) % checks if all elements of pyramid are empty
+        elapsedTime = toc; % measures elapsed time in seconds
+        elapsedTime = elapsedTime / 60; % converts elapsed time to minutes
+        
+        % prints formatted win message
+        fprintf("\n%s\n \n\tYou tackled the pyramid \n\tin %0.2f minutes!\n\n ============================\n\n", winScreen, elapsedTime);
+        
+        input(" Press enter to return to the\n game ...\n", 's'); % prompts the user to press the enter key to continue
+        clc; 
+    end
     
     % generates printable board with initial values and updates pyramid
     [ pyramid, board ] = generateBoard(pyramid, boardSize, stock, drawn, discard);
